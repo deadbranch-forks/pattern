@@ -9,7 +9,14 @@ from io import open
 
 from setuptools import setup
 
-from pattern import __version__
+# from pattern import __version__
+def read_version():
+    version_file = os.path.join(os.path.dirname(__file__), 'pattern', '__init__.py')
+    with open(version_file, 'r') as f:
+        for line in f:
+            if line.startswith('__version__'):
+                # Strip the version number from the line and return it
+                return line.split('=')[1].strip().strip('"\'')
 
 #---------------------------------------------------------------------------------------------------
 # "python setup.py zip" will create the zipped distribution and checksum.
@@ -51,7 +58,7 @@ if sys.argv[-1] == "zip":
 
 setup(
             name = "Pattern",
-         version = "3.6",
+         version = read_version(),
      description = "Web mining module for Python.",
          license = "BSD",
           author = "Tom De Smedt",
